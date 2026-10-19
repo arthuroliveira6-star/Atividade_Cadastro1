@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrainPass</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="aplicacao">
+      <header class="cabecalho">
+        <div class="marca">
+          <span class="marca-logo" aria-hidden="true">T</span>
+          <span>TrainPass</span>
+        </div>
+
+        <div class="controle-tema" aria-label="Seleção de tema">
+          <button class="botao-tema" data-theme="light" aria-pressed="true">
+            Claro
+          </button>
+          <button class="botao-tema" data-theme="dark" aria-pressed="false">
+            Escuro
+          </button>
+          <button class="botao-tema" data-theme="high-contrast" aria-pressed="false">
+            Alto contraste
+          </button>
+        </div>
+      </header>
+
+      <main class="autenticacao" aria-live="polite">
+        <div class="abas-autenticacao" role="tablist" aria-label="Autenticação">
+          <button
+            class="aba active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="login-panel"
+            id="login-tab"
+          >
+            Entrar
+          </button>
+          <button
+            class="aba"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="register-panel"
+            id="register-tab"
+          >
+            Cadastrar
+          </button>
+        </div>
+
+        <section
+          id="login-panel"
+          class="painel active"
+          role="tabpanel"
+          aria-labelledby="login-tab"
+        >
+          <h1>Login</h1>
+          <form id="loginForm" novalidate>
+            <div class="campo">
+              <label for="login-email">E-mail</label>
+              <input id="login-email" name="email" type="email" autocomplete="email" required />
+            </div>
+
+            <div class="campo">
+              <label for="login-password">Senha</label>
+              <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+            </div>
+
+            <button class="botao-primario" type="submit">Entrar</button>
+          </form>
+        </section>
+
+        <section
+          id="register-panel"
+          class="painel"
+          role="tabpanel"
+          aria-labelledby="register-tab"
+          hidden
+        >
+          <h1>Cadastro</h1>
+          <form id="registerForm" novalidate>
+            <div class="campo">
+              <label for="register-name">Nome completo</label>
+              <input id="register-name" name="name" type="text" autocomplete="name" required />
+            </div>
+
+            <div class="campo">
+              <label for="register-email">E-mail</label>
+              <input id="register-email" name="email" type="email" autocomplete="email" required />
+            </div>
+
+            <div class="campo">
+              <label for="register-password">Senha</label>
+              <input id="register-password" name="password" type="password" minlength="6" autocomplete="new-password" required />
+            </div>
+
+            <button class="botao-primario" type="submit">Cadastrar</button>
+          </form>
+        </section>
+
+        <p id="statusMessage" class="mensagem-status" aria-live="assertive"></p>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

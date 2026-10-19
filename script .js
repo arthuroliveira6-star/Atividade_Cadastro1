@@ -2,10 +2,9 @@ const THEME_KEY = "app-theme";
 const USER_KEY = "app-users";
 
 const body = document.body;
-// seletores atualizados para os nomes em português do HTML
-const themeButtons = document.querySelectorAll(".botao-tema");
-const tabs = document.querySelectorAll(".aba");
-const panels = document.querySelectorAll(".painel");
+const themeButtons = document.querySelectorAll(".theme-button");
+const tabs = document.querySelectorAll(".tab");
+const panels = document.querySelectorAll(".panel");
 const loginForm = document.getElementById("loginForm");
 const registerForm = document.getElementById("registerForm");
 const statusMessage = document.getElementById("statusMessage");
@@ -40,10 +39,9 @@ function switchTab(targetTabId) {
   });
 }
 
-// usa a classe em português conforme o HTML: "mensagem-status"
 function showStatus(message, type) {
   statusMessage.textContent = message;
-  statusMessage.className = `mensagem-status ${type}`;
+  statusMessage.className = `status ${type}`;
 }
 
 function saveUser(user) {
@@ -75,4 +73,58 @@ registerForm.addEventListener("submit", (event) => {
   const formData = new FormData(registerForm);
   const name = String(formData.get("name")).trim();
   const email = String(formData.get("email")).trim();
-  const password = String
+  const password = String(formData.get("password")).trim();
+
+  if (!name || !email || !password) {
+    showStatus("Preencha todos os campos do cadastro.", "error");
+    return;
+  }
+
+  if (password.length < 6) {
+    showStatus("A senha deve ter pelo menos 6 caracteres.", "error");
+    return;
+  }
+
+  const existingUser = getUserByEmail(email);
+
+  if (existingUser) {
+    showStatus("Este e-mail já está cadastrado.", "error");
+    return;
+  }
+
+  saveUser({ name, email, password });
+  showStatus("Cadastro realizado com sucesso!", "success");
+  registerForm.reset();
+  switchTab("login-tab");
+});
+
+loginForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(loginForm);
+  const email = String(formData.get("email")).trim();
+  const password = String(formData.get("password")).trim();
+
+  if (!email || !password) {
+    showStatus("Informe e-mail e senha para entrar.", "error");
+    return;
+  }
+
+  const user = getUserByEmail(email);
+
+  if (!user) {
+    showStatus("Usuário não encontrado. Faça o cadastro primeiro.", "error");
+    return;
+  }
+
+  if (user.password !== password) {
+    showStatus("Senha incorreta.", "error");
+    return;
+  }
+
+  showStatus(`Login realizado com sucesso! Bem-vindo(a), ${user.name}.`, "success");
+  loginForm.reset();
+});
+
+setTheme(getSavedTheme());
+switchTab("login-tab");
